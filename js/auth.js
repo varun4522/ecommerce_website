@@ -194,16 +194,24 @@ async function handleLogin(e) {
   }
   
   try {
-    // Use custom authentication function
+    // Use custom authentication function with explicit schema
     const { data, error } = await supabase.rpc('authenticate_user', {
       login_identifier: loginIdentifier,
       password: password
     });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Authentication RPC error:', error);
+      throw new Error(error.message || 'Authentication function error');
+    }
+    
+    // Check if we got valid data
+    if (!data || !Array.isArray(data)) {
+      throw new Error('Invalid response from authentication function');
+    }
     
     // Check if authentication was successful
-    if (data && data.length > 0 && data[0].is_authenticated) {
+    if (data.length > 0 && data[0].is_authenticated) {
       const userData = data[0];
       
       // Store user session in localStorage
@@ -331,10 +339,18 @@ async function handleRegister(e) {
       p_role: 'user'
     });
     
-    if (error) throw error;
+    if (error) {
+      console.error('Registration RPC error:', error);
+      throw new Error(error.message || 'Registration function error');
+    }
+    
+    // Check if we got valid data
+    if (!data || !Array.isArray(data)) {
+      throw new Error('Invalid response from registration function');
+    }
     
     // Check if user creation was successful
-    if (data && data.length > 0 && data[0].success) {
+    if (data.length > 0 && data[0].success) {
       if (isPhoneRegister) {
         showMessage('Registration successful! You can now login with your phone number.', 'success');
       } else {
@@ -354,7 +370,18 @@ async function handleRegister(e) {
     }
     
   } catch (error) {
-    if (error.message.includes('already exists')) {
+    console.error('Registration error:', error);
+    if (error.message.includes('duplicate key value')) {
+      if (error.message.includes('user_profiles_email_key')) {
+        showMessage('Email already exists. Please use a different email.', 'error');
+      } else if (error.message.includes('user_profiles_phone_key')) {
+        showMessage('Phone number already exists. Please use a different phone number.', 'error');
+      } else {
+        showMessage('Account already exists with this information.', 'error');
+      }
+    } else if (error.message.includes('Could not find the function')) {
+      showMessage('Registration service unavailable. Please contact support.', 'error');
+    } else if (error.message.includes('already exists')) {
       showMessage('User already exists with this email or phone number', 'error');
     } else {
       showMessage('Registration failed: ' + (error.message || 'Unknown error'), 'error');
