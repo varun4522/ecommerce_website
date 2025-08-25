@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Panel - ShopEasy</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo-container">
+          <img src="since.png" alt="ShopEasy Logo" class="header-logo" />
+          <h1 class="logo">ShopEasy Admin</h1>
+        </div>
+        <nav class="main-nav">
+          <button id="logout-btn" class="btn">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="admin-welcome">
+        <h2>Admin Dashboard</h2>
+        <p id="admin-welcome">Manage products, users, and orders</p>
+      </section>
+
+      <div class="admin-tabs">
+        <button id="tab-products" class="admin-tab-btn active">Products</button>
+        <button id="tab-users" class="admin-tab-btn">Users</button>
+        <button id="tab-orders" class="admin-tab-btn">Orders</button>
+      </div>
+
+      <!-- Products Management -->
+      <section id="products-panel" class="admin-panel">
+        <div class="panel-header">
+          <h3>Manage Products</h3>
+          <button id="add-product-btn" class="btn btn-primary">Add Product</button>
+        </div>
+        <div id="products-list" class="admin-list"></div>
+      </section>
+
+      <!-- Users Management -->
+      <section id="users-panel" class="admin-panel hidden">
+        <div class="panel-header">
+          <h3>Manage Users</h3>
+        </div>
+        <div id="users-list" class="admin-list"></div>
+      </section>
+
+      <!-- Orders Management -->
+      <section id="orders-panel" class="admin-panel hidden">
+        <div class="panel-header">
+          <h3>Manage Orders</h3>
+        </div>
+        <div id="orders-list" class="admin-list"></div>
+      </section>
+    </main>
+
+    <!-- Add Product Modal -->
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Product</h3>
+          <button id="close-modal" class="close-modal">&times;</button>
+        </div>
+        <form id="product-form">
+          <div class="form-group">
+            <label for="product-name">Product Name</label>
+            <input type="text" id="product-name" required />
+          </div>
+          <div class="form-group">
+            <label for="product-desc">Description</label>
+            <textarea id="product-desc" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="product-price">Price ($)</label>
+            <input type="number" id="product-price" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label for="product-image">Image URL</label>
+            <input type="url" id="product-image" placeholder="Enter image URL or upload file below" />
+          </div>
+          <div class="form-group">
+            <label for="product-image-file">Or Upload Image from Device</label>
+            <input type="file" id="product-image-file" accept="image/*" />
+            <img id="image-preview" src="" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none; margin-top: 10px; border: 1px solid #ddd; border-radius: 4px;" />
+          </div>
+          <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <script src="js/admin.js" defer></script>
+  </body>
+</html>

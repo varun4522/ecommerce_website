@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Shop - ShopEasy</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo-container">
+          <img src="since.png" alt="ShopEasy Logo" class="header-logo" />
+          <h1 class="logo">ShopEasy</h1>
+        </div>
+        <nav class="main-nav">
+          <input id="search" class="search" placeholder="Search products..." />
+          <button id="cart-toggle" class="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+          <button id="logout-btn" class="btn">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h2>Welcome to ShopEasy</h2>
+        <p>Browse a small selection of products. Click "Add to cart" to try the demo cart.</p>
+      </section>
+
+      <section>
+        <h3>Products</h3>
+        <div id="products" class="products-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <aside id="cart" class="cart">
+      <div class="cart-header">
+        <h3>Your Cart</h3>
+        <button id="close-cart" class="close-cart">Close</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="total">Total: $<span id="cart-total">0.00</span></div>
+        <button id="checkout" class="checkout">Checkout</button>
+      </div>
+    </aside>
+
+    <div id="overlay" class="overlay"></div>
+
+    <footer class="site-footer">
+      <div class="container">Simple demo online shop • No real payments • Built with HTML/CSS/JS</div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
