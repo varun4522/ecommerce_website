@@ -1,0 +1,132 @@
+/* Basic reset and layout */
+:root{
+  --accent:#0d6efd;
+  --muted:#6c757d;
+  --bg:#f8f9fa;
+  --card:#ffffff;
+  --max-width:1100px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#111}
+.container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+
+.site-header{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:0;z-index:30}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{margin:0;padding:.75rem 0;font-size:1.25rem;color:var(--accent)}
+
+/* Logo styles */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-image, .header-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.index-logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 10px;
+}
+.main-nav{display:flex;gap:.5rem;align-items:center}
+.search{padding:.5rem .75rem;border-radius:6px;border:1px solid #ddd;min-width:220px}
+.cart-btn{background:var(--accent);color:#fff;border:0;padding:.5rem .75rem;border-radius:6px;cursor:pointer}
+
+.hero{background:linear-gradient(90deg,#fff,#f6f9ff);padding:2rem;border-radius:10px;margin:1rem 0}
+
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.product{background:var(--card);padding:1rem;border-radius:8px;box-shadow:0 6px 18px rgba(17,17,17,.04);display:flex;flex-direction:column}
+.product img{width:100%;height:160px;object-fit:cover;border-radius:6px}
+.product h4{margin:.5rem 0 .25rem;font-size:1rem}
+.product p{margin:0 .0 .5rem;color:var(--muted);font-size:.9rem}
+.price-row{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.price{font-weight:600}
+.btn{background:var(--accent);color:#fff;border:0;padding:.5rem .75rem;border-radius:6px;cursor:pointer}
+
+/* Small buttons in cart */
+.btn.small{padding:.25rem .5rem;font-size:.8rem;background:#e9f0ff;color:var(--accent)}
+
+.cart{position:fixed;right:1rem;top:5rem;width:320px;max-height:70vh;background:#fff;border-radius:10px;box-shadow:0 18px 48px rgba(0,0,0,.18);overflow:hidden;transform:translateX(120%);transition:transform .25s ease;z-index:60}
+.cart.open{transform:translateX(0)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.overlay.visible{opacity:1;pointer-events:auto}
+.cart-header{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:1px solid #f1f1f1}
+.cart-items{padding:1rem;overflow:auto;max-height:40vh}
+.cart-item{display:flex;gap:.5rem;align-items:center;padding:.5rem 0;border-bottom:1px solid #f4f4f4}
+.cart-item img{width:56px;height:56px;object-fit:cover;border-radius:6px}
+.cart-footer{padding:1rem;border-top:1px solid #f1f1f1;display:flex;justify-content:space-between;align-items:center}
+.close-cart{background:#eee;border:0;padding:.25rem .5rem;border-radius:6px;cursor:pointer}
+
+.site-footer{padding:1rem 0;margin-top:2rem;color:var(--muted);text-align:center}
+
+@media (max-width:900px){
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .search{min-width:140px}
+  .header-inner{flex-wrap:wrap;gap:0.5rem}
+  .main-nav{width:100%;order:1;justify-content:center;margin-top:0.5rem}
+  .container{padding:0.75rem}
+}
+
+@media (max-width:768px){
+  .logo-image, .header-logo {
+    height: 28px;
+  }
+  
+  .logo {
+    font-size: 1.1rem;
+  }
+  
+  .product {
+    padding: 0.75rem;
+  }
+  
+  .product img {
+    height: 140px;
+  }
+  
+  .hero {
+    padding: 1.5rem;
+    margin: 0.75rem 0;
+  }
+  
+  .btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width:480px){
+  .products-grid{grid-template-columns:1fr}
+  .search{min-width:120px;width:100%}
+  .cart{width:90vw;right:5vw}
+  .hero{padding:1rem}
+  
+  .header-inner{padding:0.5rem}
+  .logo{font-size:1rem;padding:0.5rem 0}
+  .logo-image, .header-logo{height:24px}
+  
+  .product{padding:0.5rem}
+  .product img{height:120px}
+  .product h4{font-size:0.9rem}
+  .product p{font-size:0.8rem}
+  
+  .cart-header{padding:0.75rem}
+  .cart-items{padding:0.75rem}
+  .cart-footer{padding:0.75rem}
+  
+  .container{padding:0.5rem}
+}
+
+@media (max-width:360px){
+  .logo-image, .header-logo{height:20px}
+  .logo{font-size:0.9rem}
+  .search{font-size:0.9rem;padding:0.4rem 0.6rem}
+  .btn{padding:0.3rem 0.5rem;font-size:0.8rem}
+  .product img{height:100px}
+  .hero{padding:0.75rem;font-size:0.9rem}
+}
