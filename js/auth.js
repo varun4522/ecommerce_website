@@ -331,6 +331,7 @@ async function handleRegister(e) {
   
   try {
     // Use custom user creation function
+    console.log('Attempting registration...');
     const { data, error } = await supabase.rpc('create_user_with_password', {
       p_email: email,
       p_phone: phoneNumber,
@@ -339,18 +340,23 @@ async function handleRegister(e) {
       p_role: 'user'
     });
     
+    console.log('Registration response:', { data, error });
+    
     if (error) {
       console.error('Registration RPC error:', error);
+      if (error.message.includes('Could not find the function')) {
+        throw new Error('Registration service is not properly set up. Please contact support.');
+      }
       throw new Error(error.message || 'Registration function error');
     }
     
     // Check if we got valid data
-    if (!data || !Array.isArray(data)) {
+    if (!data) {
       throw new Error('Invalid response from registration function');
     }
     
     // Check if user creation was successful
-    if (data.length > 0 && data[0].success) {
+    if (data.success) {
       if (isPhoneRegister) {
         showMessage('Registration successful! You can now login with your phone number.', 'success');
       } else {
@@ -426,45 +432,46 @@ async function handleAdminLogin(e) {
   }
   
   try {
-    // Use custom authentication function
-    const { data, error } = await supabase.rpc('authenticate_user', {
-      login_identifier: email,
-      password: password
+    // Use special admin creation function that creates admin users dynamically
+    console.log('Attempting admin creation/authentication for:', email);
+    const { data, error } = await supabase.rpc('create_admin_with_code', {
+      p_email: email,
+      p_password: password,
+      p_admin_code: adminCode
     });
     
-    if (error) throw error;
+    console.log('Admin creation response:', { data, error });
     
-    // Check if authentication was successful and user is admin
-    if (data && data.length > 0 && data[0].is_authenticated) {
-      const userData = data[0];
-      
-      if (userData.role !== 'admin') {
-        showMessage('Access denied. Admin privileges required.', 'error');
-        setLoading($submitBtn, false);
-        return;
-      }
+    if (error) {
+      console.error('Admin creation error:', error);
+      throw error;
+    }
+    
+    // Check if admin creation/authentication was successful
+    if (data && data.is_authenticated) {
+      console.log('Admin authenticated successfully:', data);
       
       // Store admin session in localStorage
       const adminSession = {
-        user_id: userData.user_id,
-        email: userData.email,
-        phone: userData.phone,
-        full_name: userData.full_name,
-        role: userData.role,
+        user_id: data.user_id,
+        email: data.email,
+        phone: data.phone,
+        full_name: data.full_name,
+        role: data.role,
         login_time: new Date().toISOString(),
         is_admin: true
       };
       
       localStorage.setItem('user_session', JSON.stringify(adminSession));
       
-      showMessage('Admin login successful! Redirecting...', 'success');
+      showMessage(`${data.message} Redirecting to admin panel...`, 'success');
       
       setTimeout(() => {
         window.location.href = 'admin.html';
-      }, 1500);
+      }, 2000);
       
     } else {
-      showMessage('Invalid admin credentials', 'error');
+      showMessage(data.message || 'Admin creation failed', 'error');
     }
     
   } catch (error) {
