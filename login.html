@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - ShopEasy</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="auth-body">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="logo-container">
+            <img src="since.png" alt="ShopEasy Logo" class="logo-image" />
+            <h1 class="logo">ShopEasy</h1>
+          </div>
+          <p class="auth-subtitle">Sign in to your account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+          <!-- Toggle between Email and Phone -->
+          <div class="login-toggle">
+            <button type="button" id="email-toggle" class="toggle-btn active">Email</button>
+            <button type="button" id="phone-toggle" class="toggle-btn">Phone</button>
+          </div>
+          
+          <!-- Email Login Fields -->
+          <div id="email-login-fields">
+            <div class="form-group">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" />
+            </div>
+          </div>
+          
+          <!-- Phone Login Fields -->
+          <div id="phone-login-fields" style="display: none;">
+            <div class="form-group">
+              <label for="login-phone">Phone Number</label>
+              <div class="phone-input-group">
+                <select id="country-code" class="country-code">
+                  <option value="+1">+1 US</option>
+                  <option value="+91">+91 IN</option>
+                  <option value="+44">+44 UK</option>
+                  <option value="+86">+86 CN</option>
+                  <option value="+49">+49 DE</option>
+                  <option value="+33">+33 FR</option>
+                  <option value="+81">+81 JP</option>
+                  <option value="+61">+61 AU</option>
+                </select>
+                <input type="tel" id="login-phone" placeholder="Enter phone number" style="flex: 1;" />
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <div class="password-input-group">
+              <input type="password" id="login-password" required placeholder="Enter your password" />
+              <button type="button" class="password-toggle" data-target="login-password">
+                <i class="eye-icon">👁️</i>
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+        </form>
+
+        <!-- Register Form (hidden by default) -->
+        <form id="register-form" class="auth-form hidden">
+          <!-- Email Registration Fields -->
+          <div class="form-group">
+            <label for="register-email">Email</label>
+            <input type="email" id="register-email" required placeholder="Enter your email" />
+          </div>
+          
+          <div class="form-group">
+            <label for="register-phone">Phone Number</label>
+            <div class="phone-input-group">
+              <select id="reg-country-code" class="country-code">
+                <option value="+1">+1 US</option>
+                <option value="+91">+91 IN</option>
+                <option value="+44">+44 UK</option>
+                <option value="+86">+86 CN</option>
+                <option value="+49">+49 DE</option>
+                <option value="+33">+33 FR</option>
+                <option value="+81">+81 JP</option>
+                <option value="+61">+61 AU</option>
+              </select>
+              <input type="tel" id="register-phone" required placeholder="Enter phone number" style="flex: 1;" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="register-password">Password</label>
+            <div class="password-input-group">
+              <input type="password" id="register-password" required placeholder="Create a password" />
+              <button type="button" class="password-toggle" data-target="register-password">
+                <i class="eye-icon">👁️</i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-confirm">Confirm Password</label>
+            <div class="password-input-group">
+              <input type="password" id="register-confirm" required placeholder="Confirm your password" />
+              <button type="button" class="password-toggle" data-target="register-confirm">
+                <i class="eye-icon">👁️</i>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="register-name">Full Name</label>
+            <input type="text" id="register-name" required placeholder="Enter your full name" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+          <div class="auth-tabs">
+            <button id="tab-login" class="tab-btn active">Login</button>
+            <button id="tab-register" class="tab-btn">Register</button>
+          </div>
+        </div>
+
+        <div id="auth-message" class="auth-message"></div>
+      </div>
+    </div>
+
+    <script src="js/auth.js" defer></script>
+  </body>
+</html>

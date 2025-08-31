@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ShopEasy - Welcome</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <!-- Fallback redirect for non-JS environments -->
+    <meta http-equiv="refresh" content="3;url=login.html" />
+    <style>
+      html,body{
+        height:100%;
+        margin:0;
+        background: url('image.png') center/cover no-repeat, linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        background-blend-mode: overlay;
+        color:#fff;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+      }
+      
+      .welcome{
+        text-align:center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 3rem 2rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.8s ease-out;
+        max-width: 90vw;
+        width: 100%;
+        max-width: 500px;
+      }
+      
+      .logo-container {
+        margin-bottom: 2rem;
+      }
+      
+      .logo-image {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 1.5rem;
+        border-radius: 50%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+      
+      .logo-image:hover {
+        transform: scale(1.05);
+      }
+      
+      .logo{
+        font-size:3rem;
+        color:#fff;
+        margin-bottom:1rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+      }
+      
+      .loading{
+        color:#f0f0f0;
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .welcome {
+          padding: 2rem 1.5rem;
+          margin: 1rem;
+        }
+        
+        .logo-image {
+          width: 100px;
+          height: 100px;
+        }
+        
+        .logo {
+          font-size: 2.5rem;
+          letter-spacing: 1px;
+        }
+        
+        .loading {
+          font-size: 1.1rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .welcome {
+          padding: 1.5rem 1rem;
+          border-radius: 15px;
+        }
+        
+        .logo-image {
+          width: 80px;
+          height: 80px;
+        }
+        
+        .logo {
+          font-size: 2rem;
+          margin-bottom: 0.8rem;
+        }
+        
+        .loading {
+          font-size: 1rem;
+        }
+      }
+      
+      @media (max-width: 320px) {
+        .logo-image {
+          width: 70px;
+          height: 70px;
+        }
+        
+        .logo {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+    <script>
+      // Immediate redirect for better UX
+      setTimeout(()=>{ window.location.href = './login.html'; }, 2000);
+    </script>
+  </head>
+  <body>
+    <div class="welcome">
+      <div class="logo-container">
+        <img src="since.png" alt="ShopEasy Logo" class="logo-image" />
+      </div>
+      <h1 class="logo">ShopEasy</h1>
+      <p class="loading">Welcome to your shopping destination...</p>
+    </div>
+  </body>
+</html>

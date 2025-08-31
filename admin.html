@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Panel - ShopEasy</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <p>Verifying admin access...</p>
+      </div>
+    </div>
+
+    <div id="admin-content" style="display: none;">
+      <header class="site-header">
+        <div class="container header-inner">
+          <div class="logo-container">
+            <img src="since.png" alt="ShopEasy Logo" class="header-logo" />
+            <h1 class="logo">ShopEasy Admin</h1>
+          </div>
+          <nav class="main-nav">
+            <button id="debug-btn" class="btn btn-secondary" style="margin-right: 10px;">Debug Auth</button>
+            <button id="logout-btn" class="btn">Logout</button>
+          </nav>
+        </div>
+      </header>
+
+      <main class="container">
+        <section class="admin-welcome">
+          <h2>Admin Dashboard</h2>
+          <p id="admin-welcome">Manage products, users, and orders</p>
+        </section>
+
+        <div class="admin-tabs">
+          <button id="tab-products" class="admin-tab-btn active">Products</button>
+          <button id="tab-orders" class="admin-tab-btn">Orders</button>
+        </div>
+
+        <!-- Products Management -->
+        <section id="products-panel" class="admin-panel">
+          <div class="panel-header">
+            <h3>Manage Products</h3>
+            <button id="add-product-btn" class="btn btn-primary">Add Product</button>
+          </div>
+          <div id="products-list" class="admin-list"></div>
+        </section>
+
+        <!-- Orders Management -->
+        <section id="orders-panel" class="admin-panel hidden">
+          <div class="panel-header">
+            <h3>Manage Orders</h3>
+          </div>
+          <div id="orders-list" class="admin-list"></div>
+        </section>
+      </main>
+
+      <!-- Add Product Modal -->
+      <div id="product-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Add New Product</h3>
+            <button id="close-modal" class="close-modal">&times;</button>
+          </div>
+          <form id="product-form">
+            <div class="form-group">
+              <label for="product-name">Product Name</label>
+              <input type="text" id="product-name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="product-desc">Description</label>
+              <textarea id="product-desc" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="product-category">Category</label>
+              <select id="product-category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Home & Garden">Home & Garden</option>
+                <option value="Sports">Sports</option>
+                <option value="Books">Books</option>
+                <option value="Toys">Toys</option>
+                <option value="Beauty">Beauty</option>
+                <option value="Food & Beverages">Food & Beverages</option>
+                <option value="Automotive">Automotive</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="product-price">Price (₹)</label>
+              <input type="number" id="product-price" name="price" step="0.01" required />
+            </div>
+            <div class="form-group">
+              <label for="product-stock">Stock Quantity</label>
+              <input type="number" id="product-stock" name="stock" min="0" required />
+            </div>
+            <div class="form-group">
+              <label for="product-image">Primary Image URL</label>
+              <input type="url" id="product-image" name="image_url" placeholder="Enter primary image URL" />
+              <small style="color: #666; font-size: 0.9em;">
+                💡 Tip: Upload your image to <a href="https://imgur.com" target="_blank">Imgur</a> or use any public image URL
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="additional-images">Additional Images (Optional)</label>
+              <div id="additional-images-container">
+                <input type="url" id="additional-image-1" name="additional_image_1" placeholder="Additional image URL 1" />
+                <input type="url" id="additional-image-2" name="additional_image_2" placeholder="Additional image URL 2" />
+                <input type="url" id="additional-image-3" name="additional_image_3" placeholder="Additional image URL 3" />
+              </div>
+              <small style="color: #666; font-size: 0.9em;">
+                📸 Add up to 3 additional product images for better showcase
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="product-image-file">Or Convert Image to Base64 (Small images only)</label>
+              <input type="file" id="product-image-file" accept="image/*" multiple />
+              <div id="image-previews" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+              <small style="color: #666; font-size: 0.9em;">
+                ⚠️ Base64 is only recommended for very small images (under 50KB). You can select multiple files.
+              </small>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Add Product</button>
+            <button type="button" class="btn btn-secondary" id="cancel-edit-btn" style="display: none;">Cancel Edit</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="modal-overlay" class="modal-overlay"></div>
+    </div>
+
+    <script src="js/admin_complete.js" defer></script>
+  </body>
+</html>

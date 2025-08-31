@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cartoon Characters Shop - ToonWorld</title>
+    <link rel="icon" type="image/png" href="since.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="logo-container">
+          <div class="logo-emoji">🎭</div>
+          <h1 class="logo">ToonWorld</h1>
+        </div>
+        <nav class="main-nav">
+          <input id="search" class="search" placeholder="🔍 Search cartoon characters..." />
+          <button id="cart-toggle" class="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</button>
+          <button id="settings-toggle" class="settings-btn">⚙️ Settings</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <h2 class="hero-title">🌟 Welcome to ToonWorld <span id="user-name" class="user-name"></span>!</h2>
+          <p class="hero-subtitle">Discover amazing cartoon characters and bring them to your collection! 🎨✨</p>
+          <div class="hero-decorations">
+            <span class="decoration">🎪</span>
+            <span class="decoration">🎨</span>
+            <span class="decoration">🌈</span>
+            <span class="decoration">⭐</span>
+            <span class="decoration">🎯</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter Section -->
+      <section class="filters-section">
+        <div class="filters-header">
+          <h3>🎯 Find Your Perfect Character</h3>
+          <p>Filter by your favorite cartoon categories and price range!</p>
+        </div>
+        <div class="filters-container">
+          <div class="filter-group">
+            <label for="category-filter">🎭 Character Type:</label>
+            <select id="category-filter" class="filter-select">
+              <option value="">All Characters</option>
+              <option value="Disney">🏰 Disney Characters</option>
+              <option value="Marvel">🦸 Marvel Heroes</option>
+              <option value="Anime">🌸 Anime Characters</option>
+              <option value="Cartoon Network">📺 Cartoon Network</option>
+              <option value="Nickelodeon">🧽 Nickelodeon</option>
+              <option value="Pixar">🚗 Pixar Characters</option>
+              <option value="Studio Ghibli">🌟 Studio Ghibli</option>
+              <option value="Classic">👴 Classic Cartoons</option>
+              <option value="Gaming">🎮 Gaming Characters</option>
+              <option value="Other">🎪 Other</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="price-min">💰 Price Range:</label>
+            <div class="price-range">
+              <input type="number" id="price-min" class="price-input" placeholder="Min ₹" min="0" step="0.01" />
+              <span class="price-separator">to</span>
+              <input type="number" id="price-max" class="price-input" placeholder="Max ₹" min="0" step="0.01" />
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label for="sort-by">📊 Sort By:</label>
+            <select id="sort-by" class="filter-select">
+              <option value="name">🔤 Name (A-Z)</option>
+              <option value="name-desc">🔡 Name (Z-A)</option>
+              <option value="price">💲 Price (Low to High)</option>
+              <option value="price-desc">💸 Price (High to Low)</option>
+              <option value="newest">🆕 Newest First</option>
+            </select>
+          </div>
+
+          <div class="filter-actions">
+            <button id="apply-filters" class="btn filter-btn">🎯 Apply Filters</button>
+            <button id="clear-filters" class="btn clear-btn">🔄 Clear All</button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="products-header">
+          <h3>🛍️ Character Collection</h3>
+          <div class="products-count">
+            <span class="count-emoji">📦</span>
+            <span id="products-count">0</span> characters available
+          </div>
+        </div>
+        <div id="products" class="products-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <aside id="cart" class="cart">
+      <div class="cart-header">
+        <h3>🛒 Your Cart</h3>
+        <button id="close-cart" class="close-cart">❌</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="total">💰 Total: ₹<span id="cart-total">0.00</span></div>
+        <button id="checkout" class="checkout">🎉 Checkout</button>
+      </div>
+    </aside>
+
+    <!-- Settings Panel -->
+    <aside id="settings" class="settings">
+      <div class="settings-header">
+        <h3>⚙️ Settings</h3>
+        <button id="close-settings" class="close-settings">❌</button>
+      </div>
+      <div class="settings-content">
+        <div class="settings-section">
+          <h4>👤 Account</h4>
+          <p id="user-email" class="user-info">Loading...</p>
+        </div>
+        <div class="settings-section">
+          <h4>📦 Order History</h4>
+          <button id="view-orders-btn" class="settings-action-btn">📋 View My Orders</button>
+        </div>
+        <div class="settings-section">
+          <h4>🎨 Preferences</h4>
+          <button id="clear-cart-btn" class="settings-action-btn">🗑️ Clear Cart</button>
+          <button id="clear-history-btn" class="settings-action-btn">🧹 Clear Search History</button>
+        </div>
+        <div class="settings-section">
+          <h4>🚪 Account Actions</h4>
+          <button id="logout-btn" class="settings-logout-btn">👋 Logout</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Orders History Modal -->
+    <div id="orders-history-modal" class="orders-modal">
+      <div class="orders-modal-content">
+        <div class="orders-header">
+          <h3>📋 My Order History</h3>
+          <button id="close-orders-modal" class="close-modal">❌</button>
+        </div>
+        <div id="orders-history-content" class="orders-history-content">
+          <div class="loading-orders">
+            <div class="loading-spinner-small"></div>
+            <p>Loading your orders...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Checkout Modals -->
+    <!-- Step 1: Address Form -->
+    <div id="checkout-address-modal" class="checkout-modal">
+      <div class="checkout-modal-content">
+        <div class="checkout-header">
+          <h3>🏠 Shipping Address</h3>
+          <button id="close-address-modal" class="close-modal">❌</button>
+        </div>
+        <form id="address-form" class="checkout-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">👤 First Name *</label>
+              <input type="text" id="first-name" name="firstName" required>
+            </div>
+            <div class="form-group">
+              <label for="last-name">👤 Last Name *</label>
+              <input type="text" id="last-name" name="lastName" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phone-number">📱 Phone Number *</label>
+            <input type="tel" id="phone-number" name="phoneNumber" required>
+          </div>
+          <div class="form-group">
+            <label for="address1">🏡 Address Line 1 *</label>
+            <input type="text" id="address1" name="address1" placeholder="Street address, apartment, suite, etc." required>
+          </div>
+          <div class="form-group">
+            <label for="address2">🏢 Address Line 2</label>
+            <input type="text" id="address2" name="address2" placeholder="Building, company, etc. (optional)">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">🏙️ City *</label>
+              <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+              <label for="state">🗺️ State *</label>
+              <input type="text" id="state" name="state" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="zip-code">📮 ZIP Code *</label>
+              <input type="text" id="zip-code" name="zipCode" required>
+            </div>
+            <div class="form-group">
+              <label for="country">🌍 Country</label>
+              <input type="text" id="country" name="country" value="India" readonly>
+            </div>
+          </div>
+          <button type="submit" class="checkout-btn">📝 Confirm Address</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Step 2: Order Confirmation -->
+    <div id="checkout-confirmation-modal" class="checkout-modal">
+      <div class="checkout-modal-content">
+        <div class="checkout-header">
+          <h3>📋 Order Confirmation</h3>
+          <button id="close-confirmation-modal" class="close-modal">❌</button>
+        </div>
+        <div class="order-details">
+          <div class="shipping-info">
+            <h4>🚚 Shipping Address</h4>
+            <div id="confirmed-address" class="address-display"></div>
+          </div>
+          <div class="product-details">
+            <h4>🛍️ Order Items</h4>
+            <div id="order-items" class="order-items-list"></div>
+          </div>
+          <div class="payment-method">
+            <h4>💰 Payment Method</h4>
+            <div class="payment-option">
+              <input type="radio" id="cod" name="payment" value="cod" checked>
+              <label for="cod">💵 Cash on Delivery (COD)</label>
+            </div>
+          </div>
+          <div class="order-total">
+            <div class="total-line">
+              <span>Subtotal:</span>
+              <span>₹<span id="order-subtotal">0.00</span></span>
+            </div>
+            <div class="total-line">
+              <span>Shipping:</span>
+              <span>₹<span id="shipping-cost">75.00</span></span>
+            </div>
+            <div class="total-line total-final">
+              <span>Total:</span>
+              <span>₹<span id="order-final-total">0.00</span></span>
+            </div>
+          </div>
+        </div>
+        <button id="place-order-btn" class="checkout-btn">🎉 Place Order</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Order Success -->
+    <div id="order-success-modal" class="checkout-modal">
+      <div class="checkout-modal-content success-content">
+        <div class="success-animation">
+          <div class="checkmark-circle">
+            <div class="checkmark">✓</div>
+          </div>
+        </div>
+        <h3>🎉 Order Placed Successfully!</h3>
+        <div class="order-success-details">
+          <p>🎊 Thank you for your order!</p>
+          <p>📦 Your cartoon characters are on their way!</p>
+          <div class="order-number">
+            <strong>Order #: <span id="order-number"></span></strong>
+          </div>
+          <p>📱 You will receive a confirmation SMS shortly.</p>
+        </div>
+        <button id="continue-shopping-btn" class="checkout-btn">🛍️ Continue Shopping</button>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h4>🎭 ToonWorld</h4>
+            <p>Your magical destination for cartoon characters!</p>
+          </div>
+          <div class="footer-section">
+            <h4>✨ Features</h4>
+            <p>• Wide character selection</p>
+            <p>• Safe & secure shopping</p>
+            <p>• Fast delivery</p>
+          </div>
+          <div class="footer-section">
+            <h4>🌈 Fun Fact</h4>
+            <p>Demo shop with colorful cartoon vibes! 🎨</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
